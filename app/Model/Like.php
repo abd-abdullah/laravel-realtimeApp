@@ -8,6 +8,6 @@ class Like extends Model
 {
     public function replies()
     {
-    	return $this->belongsToMany('reply');
-    }
+    	return $this->belongsToMany('App\Model\Reply');
+    } 
 }

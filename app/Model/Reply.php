@@ -8,17 +8,17 @@ class Reply extends Model
 {
     public function user()
     {
-    	return $this->belongsTo('User');
+    	return $this->belongsTo('App\Model\User');
     }
 
     public function question()
     {
-    	return $this->belongsTo('Question');
+    	return $this->belongsTo('App\Model\Question');
     }
 
     public function like()
     {
-    	return $this->hasMany('Like');
+    	return $this->hasMany('App\Model\Like');
     }
 
 }

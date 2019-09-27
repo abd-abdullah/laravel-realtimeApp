@@ -39,16 +39,16 @@ class User extends Authenticatable
 
     public function questions()
     {
-        return $this->hasMany('Question');
+        return $this->hasMany('App\Model\Question');
     }
 
     public function replies()
     {
-        return $this->hasMany('Replay');
+        return $this->hasMany('App\Model\Reply');
     }
 
     public function likes()
     {
-        return $this->hasMany('Like');
+        return $this->hasMany('App\Model\Like');
     }
 }

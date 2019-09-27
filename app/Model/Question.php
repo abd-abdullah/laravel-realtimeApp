@@ -3,23 +3,32 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
 
 class Question extends Model
 {
+    protected $fillable = ['title','slug','body','category_id','user_id'];
+
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
+    public function getPathAttribute()
+    {
+        return asset("api/question/$this->slug");
+    }
 
     public function user()
     {
-    	return $this->belongsTo('User');
+    	return $this->belongsTo('App\Model\User');
     }
 
     public function replies()
     {
-    	return $this->hasMany('Reply')
+    	return $this->hasMany('App\Model\Reply');
     }
 
     public function category()
     {
-    	return $this->belongsTo('Category')
+    	return $this->belongsTo('App\Model\Category');
     }
 }
