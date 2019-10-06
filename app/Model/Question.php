@@ -4,6 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed replies
+ */
 class Question extends Model
 {
     protected $fillable = ['title','slug','body','category_id','user_id'];
