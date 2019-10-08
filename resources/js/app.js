@@ -22,6 +22,11 @@ Vue.use(BootstrapVue)
 
 Vue.component('home-component', require('./components/layouts/AppHome').default);
 
+import User from './helpers/User.js'
+
+window.User = User;
+console.log(User.userId());
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

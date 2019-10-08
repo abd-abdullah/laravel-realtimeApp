@@ -31,12 +31,8 @@
             }
         },
         methods:{
-            login(){
-                axios.post('api/auth/login',this.form).then(function (resData) {
-                    console.log(resData);
-                }).catch(function(failData){
-                    console.log(failData);
-                });
+            login() {
+                User.login(this.form);
             }
         }
     }
