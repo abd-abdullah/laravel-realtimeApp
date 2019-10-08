@@ -7,39 +7,34 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="#">FORUME</b-nav-item>
-                    <b-nav-item href="#">CATEGORY</b-nav-item>
-                    <b-nav-item href="#">ASK QUESTION</b-nav-item>
+                    <b-nav-item link to="#">FORUME</b-nav-item>
+                    <b-nav-item link to="#">CATEGORY</b-nav-item>
+                    <b-nav-item link to="#">ASK QUESTION</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
 
                     <b-nav-item-dropdown text="Lang" right>
-                        <b-dropdown-item href="#">EN</b-dropdown-item>
-                        <b-dropdown-item href="#">ES</b-dropdown-item>
-                        <b-dropdown-item href="#">RU</b-dropdown-item>
-                        <b-dropdown-item href="#">FA</b-dropdown-item>
+                        <b-dropdown-item link to="#">EN</b-dropdown-item>
+                        <b-dropdown-item link to="#">ES</b-dropdown-item>
+                        <b-dropdown-item link to="#">RU</b-dropdown-item>
+                        <b-dropdown-item link to="#">FA</b-dropdown-item>
                     </b-nav-item-dropdown>
+
+
+                    <b-nav-item link to="/login">Login</b-nav-item>
 
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
                             <em>Md Abdullah</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item link to="#">Profile</b-dropdown-item>
+                        <b-dropdown-item link to="#">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
     </div>
 </template>
-
-<script>
-
-</script>
-
-<style scoped>
-
-</style>
