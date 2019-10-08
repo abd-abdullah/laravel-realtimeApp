@@ -46,22 +46,19 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof  TokenBlacklistedException) {
+        if ($exception instanceof TokenBlacklistedException) {
             return response(['error' => "Token can not be used ! Try with new token"], Response::HTTP_BAD_REQUEST);
-        }
-        elseif($exception instanceof  TokenInvalidException){
+        } elseif ($exception instanceof TokenInvalidException) {
             return response(['error' => "Token is Invalid"], Response::HTTP_BAD_REQUEST);
-        }
-        elseif($exception instanceof  TokenExpiredException){
+        } elseif ($exception instanceof TokenExpiredException) {
             return response(['error' => "Token Expired"], Response::HTTP_BAD_REQUEST);
-        }
-        elseif($exception instanceof JWTException){
+        } elseif ($exception instanceof JWTException) {
             return response(['error' => "Token is not Provided"], Response::HTTP_BAD_REQUEST);
         }
 
