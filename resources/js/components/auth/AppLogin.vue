@@ -10,9 +10,16 @@
                     <br/>
                     <label for="defaultFormLoginPasswordEx" class="grey-text">Your password</label>
                     <input  v-model="form.password" type="password" id="defaultFormLoginPasswordEx" class="form-control"/>
-                    <div class="text-center mt-4">
-                        <button class="btn btn-success" type="submit">Login</button>
-                    </div>
+                    <b-row class="mt-4">
+                        <b-col cols="4" class="text-left">
+                            <b-link to="/signup">
+                                <button class="btn btn-primary btn-block" type="submit">Register</button>
+                            </b-link>
+                        </b-col>
+                        <b-col offset="4" cols="4" class="text-right">
+                            <button class="btn btn-success btn-block" type="submit">Login</button>
+                        </b-col>
+                    </b-row>
                 </form>
             </b-col>
         </b-row>
