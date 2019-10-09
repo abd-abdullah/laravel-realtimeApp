@@ -7,9 +7,7 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item link to="#">FORUME</b-nav-item>
-                    <b-nav-item link to="#">CATEGORY</b-nav-item>
-                    <b-nav-item link to="#">ASK QUESTION</b-nav-item>
+                    <b-nav-item class="text-uppercase" v-for="item in items" :key="item.title" :to="item.to">{{item.title}}</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
@@ -23,12 +21,12 @@
                     </b-nav-item-dropdown>
 
 
-                    <b-nav-item link to="/login">Login</b-nav-item>
+                    <b-nav-item v-if="!login" link to="/login">Login</b-nav-item>
 
-                    <b-nav-item-dropdown right>
+                    <b-nav-item-dropdown v-if="login" right>
                         <!-- Using 'button-content' slot -->
-                        <template v-slot:button-content>
-                            <em>Md Abdullah</em>
+                        <template  v-slot:button-content>
+                            <em >{{username}}</em>
                         </template>
                         <b-dropdown-item link to="#">Profile</b-dropdown-item>
                         <b-dropdown-item link to="#">Sign Out</b-dropdown-item>
@@ -38,3 +36,21 @@
         </b-navbar>
     </div>
 </template>
+
+<script>
+
+    export default {
+        data() {
+            return {
+                items: [
+                    {title:"Forum", to:'/forum', show:false},
+                    {title:"Ask Question", to:'/ask',show:User.loggedIn()},
+                    {title:"Category", to:'/category',show:User.loggedIn()},
+                ],
+
+                username:User.userName(),
+                login:User.loggedIn(),
+            }
+        }
+    }
+</script>

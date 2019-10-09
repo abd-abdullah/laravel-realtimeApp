@@ -2,12 +2,6 @@ import Token from './Token.js'
 import AppStorage from './AppStorage.js'
 
 class User {
-    signUp(FormData){
-        axios.post('api/auth/signup',FormData).then(resData => this.responseAfterLogin(resData))
-            .catch(function(failData){
-                console.log(failData);
-            });
-    }
 
     login(FormData){
         axios.post('api/auth/login',FormData).then(resData => this.responseAfterLogin(resData))
@@ -20,7 +14,6 @@ class User {
         const access_token = resData.data.access_token;
         const  username = resData.data.user;
         if(Token.isValid(access_token)){
-            console.log(access_token);
             AppStorage.storeCredentials(username,access_token);
         }
     }
@@ -34,7 +27,6 @@ class User {
 
         return false;
     }
-
 
 
     loggedIn(){
