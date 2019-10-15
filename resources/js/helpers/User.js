@@ -15,6 +15,7 @@ class User {
         const  username = resData.data.user;
         if(Token.isValid(access_token)){
             AppStorage.storeCredentials(username,access_token);
+            window.location.href = '/forum';
         }
     }
 
@@ -34,7 +35,8 @@ class User {
     }
 
     logout(){
-        return AppStotage.deleteCredentials()
+         AppStorage.deleteCredentials();
+         window.location.href = '/forum';
     }
 
     userName() {
@@ -53,4 +55,4 @@ class User {
     }
 }
 
-export default new User();
+export default User = new User();

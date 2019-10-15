@@ -7,18 +7,11 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item class="text-uppercase" v-for="item in items" :key="item.title" :to="item.to">{{item.title}}</b-nav-item>
+                    <b-nav-item class="text-uppercase" v-for="item in items" :key="item.title" :to="item.to" v-if="item.show">{{item.title}}</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
-
-                    <b-nav-item-dropdown text="Lang" right>
-                        <b-dropdown-item link to="#">EN</b-dropdown-item>
-                        <b-dropdown-item link to="#">ES</b-dropdown-item>
-                        <b-dropdown-item link to="#">RU</b-dropdown-item>
-                        <b-dropdown-item link to="#">FA</b-dropdown-item>
-                    </b-nav-item-dropdown>
 
 
                     <b-nav-item v-if="!login" link to="/login">Login</b-nav-item>
@@ -29,7 +22,7 @@
                             <em >{{username}}</em>
                         </template>
                         <b-dropdown-item link to="#">Profile</b-dropdown-item>
-                        <b-dropdown-item link to="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item link to="/logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -43,7 +36,7 @@
         data() {
             return {
                 items: [
-                    {title:"Forum", to:'/forum', show:false},
+                    {title:"Forum", to:'/forum', show:true},
                     {title:"Ask Question", to:'/ask',show:User.loggedIn()},
                     {title:"Category", to:'/category',show:User.loggedIn()},
                 ],
@@ -51,6 +44,11 @@
                 username:User.userName(),
                 login:User.loggedIn(),
             }
+        },
+        created() {
+            EventBus.$on('logout', () => {
+                User.logout();
+            })
         }
     }
 </script>

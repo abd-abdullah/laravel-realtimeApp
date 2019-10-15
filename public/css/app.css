@@ -21580,7 +21580,7 @@ a.text-dark:focus {
   display: none !important;
 }
 
-.dropdown.b-dropdown .b-dropdown-form {
+.b-dropdown-form {
   display: inline-block;
   padding: 0.25rem 1.5rem;
   width: 100%;
@@ -21588,13 +21588,13 @@ a.text-dark:focus {
   font-weight: 400;
 }
 
-.dropdown.b-dropdown .b-dropdown-form:focus {
+.b-dropdown-form:focus {
   outline: 1px dotted !important;
   outline: 5px auto -webkit-focus-ring-color !important;
 }
 
-.dropdown.b-dropdown .b-dropdown-form.disabled,
-.dropdown.b-dropdown .b-dropdown-form:disabled {
+.b-dropdown-form.disabled,
+.b-dropdown-form:disabled {
   outline: 0 !important;
   color: #6c757d;
   pointer-events: none;

@@ -57,12 +57,18 @@
                 errors:{}
             }
         },
+        created(){
+            if(User.loggedIn()){
+                this.$router.push({name:'forum'});
+            }
+        },
         methods:{
             signUp(){
-                axios.post('api/auth/signup',this.form).then(function(resData){
-                        User.responseAfterLogin(resData)
-                    }).catch(function (failData) {
-                        this.errors = failData.response.data.errors
+                axios.post('api/auth/signup',this.form)
+                    .then(function(resData){
+                        User.responseAfterLogin(resData);
+                    }).catch(error => {
+                        this.errors = error.response.data.errors
                     });
             }
         }
