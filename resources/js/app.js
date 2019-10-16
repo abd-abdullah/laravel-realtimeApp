@@ -9,6 +9,12 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue)
+
+import VueSimplemde from 'vue-simplemde'
+
+Vue.component('vue-simplemde', VueSimplemde)
+import md from 'marked'
+window.md = md;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

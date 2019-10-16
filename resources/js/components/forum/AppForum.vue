@@ -3,13 +3,13 @@
     <b-container class="bg-white">
         <b-row class="p-5">
             <b-col cols="10">
-                <Question
+                <ForumShow
                 v-for="question in questions"
                 :key="question.id"
                 :question=question
                 >
 
-                </Question>
+                </ForumShow>
             </b-col>
             <b-col cols="2">
                 sidebar
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import Question from './AppQuestion';
+    import ForumShow from './ForumShow';
     export default {
         data(){
             return {
@@ -28,7 +28,7 @@
             }
         },
 
-        components:{Question},
+        components:{ForumShow},
 
         created(){
            axios.get ('/api/question')
