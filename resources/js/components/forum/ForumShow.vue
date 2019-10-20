@@ -1,5 +1,5 @@
 <template>
-    <b-card>
+    <b-card class="mb-2">
         <div>
             <h4 class="m-0">
                 <b-link :href="question.path">{{question.title}}</b-link>
