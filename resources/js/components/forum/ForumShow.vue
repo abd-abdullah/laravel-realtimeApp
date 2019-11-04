@@ -12,7 +12,7 @@
             </b-card-body>
             <b-card-body>
 
-                <b-button class="float-md-right" pill variant="success">5 Replies</b-button>
+                <b-button class="float-md-right" pill variant="success">{{question.replay_count}} Replies</b-button>
 
             </b-card-body>
         </b-card-text>

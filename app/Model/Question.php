@@ -24,6 +24,8 @@ class Question extends Model
         });
     }
 
+    protected $with = ['replies'];
+
     public function getRouteKeyName(){
         return 'id';
     }
@@ -40,7 +42,7 @@ class Question extends Model
 
     public function replies()
     {
-    	return $this->hasMany('App\Model\Reply');
+    	return $this->hasMany('App\Model\Reply')->latest();
     }
 
     public function category()

@@ -13,7 +13,7 @@
                     <b-row class="mt-4">
                         <b-col cols="4" class="text-left">
                             <b-link to="/signup">
-                                <button class="btn btn-primary btn-block" type="submit">Register</button>
+                                <a class="btn btn-outline-info btn-block">Register</a>
                             </b-link>
                         </b-col>
                         <b-col offset="4" cols="4" class="text-right">

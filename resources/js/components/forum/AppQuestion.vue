@@ -17,21 +17,39 @@
                         <b-button variant="danger" @click="destroy">Delete</b-button>
                     </div>
                     <div v-else class="col-6"></div>
-                    <div class="col-6 pull-right">
-                        <b-button class="float-md-right" pill variant="success">5 Replies</b-button>
+                    <div class="col-6 text-right">
+                        <div>
+                            <b-button v-b-toggle.reply-list class="reply-toggle" variant="primary">{{reply_count}} Replies</b-button>
+
+                        </div>
                     </div>
+                    <b-collapse id="reply-list" class="mt-2">
+                        <b-card>
+                            <reply v-for = "reply in replies" :reply="reply" :key="reply.id"></reply>
+                        </b-card>
+                    </b-collapse>
                 </div>
             </b-card-body>
         </b-card-text>
+        <new-reply :question_id="question.id"></new-reply>
     </b-card>
 </template>
 
 <script>
+
+    import Reply from '../reply/reply';
+    import newReply from '../reply/newReply';
     export default {
+        components:{Reply, newReply},
         name: "AppQuestion",
         props: ['question'],
+        created(){
+            this.listen();
+        },
         data(){
             return {
+                reply_count:this.question.reply_count,
+                replies:this.question.replies,
                 own: User.own(this.question.user_id)
             }
         },
@@ -41,6 +59,12 @@
             }
         },
         methods:{
+            listen(){
+                EventBus.$on('newReply', (reply) => {
+                    this.reply_count++;
+                    this.replies.unshift(reply);
+                });
+            },
             destroy(){
                 axios.delete(`../api/question/${this.question.id}`)
                 .then(resData =>{

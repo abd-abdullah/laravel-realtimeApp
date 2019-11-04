@@ -27,7 +27,7 @@
                         <b-row class="mt-4">
                             <b-col cols="4" class="text-left">
                                 <b-link to="/login">
-                                    <button class="btn btn-success btn-block" type="submit">LogIn</button>
+                                    <a class="btn btn-outline-success btn-block" type="submit">LogIn</a>
                                 </b-link>
                             </b-col>
                             <b-col offset="4" cols="4" class="text-right">

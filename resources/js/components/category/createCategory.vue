@@ -59,6 +59,11 @@
             }
         },
         created(){
+
+            if(!User.is_admin()){
+                this.$router.push({name:'forum'});
+            }
+
            this.getAll();
         },
         methods: {

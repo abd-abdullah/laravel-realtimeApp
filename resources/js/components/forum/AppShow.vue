@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container mb-4">
         <EditQuestion
                 v-if="editing"
                 :question = question
