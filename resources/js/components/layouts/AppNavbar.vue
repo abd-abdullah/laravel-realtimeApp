@@ -13,6 +13,9 @@
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
 
+                    <b-navbar-nav right>
+                        <notification></notification>
+                    </b-navbar-nav>
 
                     <b-nav-item v-if="!login" link to="/login">Login</b-nav-item>
 
@@ -31,8 +34,10 @@
 </template>
 
 <script>
+    import Notification from './AppNotification';
 
     export default {
+        components:{Notification},
         data() {
             return {
                 items: [

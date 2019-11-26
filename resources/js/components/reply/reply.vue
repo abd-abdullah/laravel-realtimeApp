@@ -1,12 +1,22 @@
 <template>
     <div class="pb-2">
         <b-list-group>
-            <b-list-group-item href="#" class="flex-column align-items-start">
+            <b-list-group-item class="flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between border-bottom mb-2">
-                    <h5 class="mb-1"><b>{{reply.user}}</b></h5>
-                    <small>{{reply.created_at}}</small>
+                    <h5 class="mb-1"><b>{{reply.user}},</b>
+                        <small> {{reply.created_at}}</small>
+                    </h5>
+
+
+                    <like :reply="reply"></like>
+
                 </div>
-                <b-row>
+                <edit-reply
+                        v-if="editing"
+                        :reply=reply
+                >
+                </edit-reply>
+                <b-row v-else>
                     <b-col cols="10">
                         <p class="mb-1">
                             {{reply.reply}}
@@ -25,24 +35,37 @@
 </template>
 
 <script>
+    import EditReply from './editReply';
+    import Like from '../likes/like';
     export default {
         name: "reply",
-        props:['reply'],
+        props:['reply', 'index'],
+        components:{EditReply, Like},
+        data(){
+            return {
+                editing:false
+            }
+        },
+        created(){
+            this.listen();
+        },
         computed:{
             own(){
                 return User.own(this.reply.user_id);
+            }
+        },
+        methods:{
+            destroy(){
+                EventBus.$emit('deleteReply', this.index);
             },
-            destroy(id, index){
-                /*axios.delete(`/api/category/${id}`)
-                    .then(resData =>{
-                        this.categories.splice(index,1);
-                    });*/
+            edit(){
+                this.editing = true;
             },
-            edit(id,index){
-                /*this.form.name = this.categories[index].name;
-                this.editId = id;
-                this.categories.splice(index,1);*/
-            },
+            listen(){
+                EventBus.$on('cancelEditing', () =>{
+                    this.editing = false;
+                });
+            }
         }
 
     }

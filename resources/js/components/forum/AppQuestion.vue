@@ -23,9 +23,16 @@
 
                         </div>
                     </div>
-                    <b-collapse id="reply-list" class="mt-2">
+                    <b-collapse id="reply-list" class="col-12 mt-2">
                         <b-card>
-                            <reply v-for = "reply in replies" :reply="reply" :key="reply.id"></reply>
+                            <reply
+                                    v-for = "(reply,index) in replies"
+                                    :reply="reply"
+                                    :key="reply.id"
+                                    :index="index"
+                            >
+
+                            </reply>
                         </b-card>
                     </b-collapse>
                 </div>
@@ -63,6 +70,14 @@
                 EventBus.$on('newReply', (reply) => {
                     this.reply_count++;
                     this.replies.unshift(reply);
+                });
+
+                EventBus.$on('deleteReply', (index) => {
+                    axios.delete(`../api/question/${this.question.id}/reply/${this.question.replies[index].id}`)
+                    .then(resData =>{
+                        this.reply_count--;
+                        this.replies.splice(index,1);
+                    });
                 });
             },
             destroy(){
