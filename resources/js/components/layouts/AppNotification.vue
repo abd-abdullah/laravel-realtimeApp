@@ -51,6 +51,11 @@
             if (User.loggedIn()) {
                 this.getNotifications();
             }
+
+            Echo.private('App.Model.User.' + User.userId())
+                .notification((notification) => {
+                    this.getNotifications();
+                });
         },
         methods: {
             getNotifications() {

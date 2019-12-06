@@ -79,6 +79,22 @@
                         this.replies.splice(index,1);
                     });
                 });
+
+                Echo.private('App.Model.User.' + User.userId())
+                    .notification((notification) => {
+                        this.question.replies.unshift(notification.reply);
+                        this.reply_count++;
+                    });
+
+                Echo.channel('DeleteReplyChannel')
+                    .listen('DeleteReplyEvent', (e) => {
+                        this.reply_count--;
+                        for(let index = 0; index < this.question.replies.length; index++){
+                            if(this.question.replies[index].id == e.id){
+                                this.question.replies.splice(index,1);
+                            }
+                        }
+                    });
             },
             destroy(){
                 axios.delete(`../api/question/${this.question.id}`)
