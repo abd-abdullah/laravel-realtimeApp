@@ -1,7 +1,7 @@
 <template>
     <div>
         <vue-simplemde required v-model="form.body" preview-class="markdown-body" />
-        <b-button style="margin-top:-55px;" class="btn-sm" variant="primary" @click="submit">Reply</b-button>
+        <b-button :disabled="!(form.body)" style="margin-top:-55px;" class="btn-sm" variant="primary" @click="submit">Reply</b-button>
     </div>
 </template>
 

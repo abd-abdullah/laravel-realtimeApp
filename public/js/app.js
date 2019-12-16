@@ -2244,6 +2244,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2266,6 +2269,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     body: function body() {
       return md.parse(this.question.body);
+    },
+    loggedIn: function loggedIn() {
+      return User.loggedIn();
     }
   },
   methods: {
@@ -2648,6 +2654,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2730,6 +2740,11 @@ __webpack_require__.r(__webpack_exports__);
       login: User.loggedIn()
     };
   },
+  computed: {
+    loggedIn: function loggedIn() {
+      return User.loggedIn();
+    }
+  },
   created: function created() {
     EventBus.$on('logout', function () {
       User.logout();
@@ -2793,7 +2808,9 @@ __webpack_require__.r(__webpack_exports__);
       read: {},
       unread: {},
       readCount: 0,
-      unreadCount: 0
+      bell_color: this.readCount > 0 ? 'red' : null,
+      unreadCount: 0,
+      sound: "http://soundbible.com/mp3/A-Tone-His_Self-1266414414.mp3"
     };
   },
   created: function created() {
@@ -2804,10 +2821,16 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     Echo["private"]('App.Model.User.' + User.userId()).notification(function (notification) {
+      _this.playSound();
+
       _this.getNotifications();
     });
   },
   methods: {
+    playSound: function playSound() {
+      var alert = new Audio(this.sound);
+      alert.play();
+    },
     getNotifications: function getNotifications() {
       var _this2 = this;
 
@@ -2816,6 +2839,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.unread = res.data.unread;
         _this2.readCount = res.data.read.length;
         _this2.unreadCount = res.data.unread.length;
+        _this2.bell_color = _this2.readCount > 0 ? 'red' : null;
+      })["catch"](function (error) {
+        return Exception.handle.error;
       });
     },
     markAsRead: function markAsRead(id) {
@@ -95240,7 +95266,10 @@ var render = function() {
                               "button",
                               {
                                 staticClass: "btn btn-outline-dark",
-                                attrs: { type: "submit" }
+                                attrs: {
+                                  disabled: !_vm.form.name,
+                                  type: "submit"
+                                }
                               },
                               [_vm._v("Update")]
                             ),
@@ -95259,7 +95288,10 @@ var render = function() {
                               "button",
                               {
                                 staticClass: "btn btn-success ",
-                                attrs: { type: "submit" }
+                                attrs: {
+                                  disabled: !_vm.form.name,
+                                  type: "submit"
+                                }
                               },
                               [_vm._v("Add")]
                             )
@@ -95523,7 +95555,11 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("new-reply", { attrs: { question_id: _vm.question.id } })
+      _vm.loggedIn
+        ? _c("new-reply", { attrs: { question_id: _vm.question.id } })
+        : _c("div", [
+            _c("a", { attrs: { href: "/login" } }, [_vm._v("Login to reply")])
+          ])
     ],
     1
   )
@@ -95657,7 +95693,7 @@ var render = function() {
   return _c("div", { staticClass: "row container-fluid" }, [
     _c(
       "div",
-      { staticClass: "offset-3 col-md-6 mt-5 mb-5" },
+      { staticClass: "badge-light col-md-6 mb-5 mt-5 offset-3 p-4" },
       [
         _c("h4", [_vm._v("Question Form")]),
         _vm._v(" "),
@@ -95742,7 +95778,17 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "b-button",
-                  { attrs: { type: "submit", variant: "primary" } },
+                  {
+                    attrs: {
+                      disabled: !(
+                        _vm.form.title &&
+                        _vm.form.body &&
+                        _vm.form.category_id
+                      ),
+                      type: "submit",
+                      variant: "primary"
+                    }
+                  },
                   [_vm._v("Submit")]
                 ),
                 _vm._v(" "),
@@ -95993,7 +96039,20 @@ var render = function() {
     [
       _c("AppNavbar"),
       _vm._v(" "),
-      _c("router-view"),
+      _c(
+        "div",
+        {
+          staticStyle: {
+            "min-height": "850px",
+            "background-image": "url('/img/background.jpg')",
+            "background-position": "center",
+            "background-repeat": "no-repeat",
+            "background-size": "cover"
+          }
+        },
+        [_c("router-view")],
+        1
+      ),
       _vm._v(" "),
       _c("AppFooter")
     ],
@@ -96061,12 +96120,14 @@ var render = function() {
                 "b-navbar-nav",
                 { staticClass: "ml-auto" },
                 [
-                  _c(
-                    "b-navbar-nav",
-                    { attrs: { right: "" } },
-                    [_c("notification")],
-                    1
-                  ),
+                  _vm.loggedIn
+                    ? _c(
+                        "b-navbar-nav",
+                        { attrs: { right: "" } },
+                        [_c("notification")],
+                        1
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   !_vm.login
                     ? _c("b-nav-item", { attrs: { link: "", to: "/login" } }, [
@@ -96172,9 +96233,11 @@ var render = function() {
               }
             },
             [
-              _c("i", { staticClass: "fa fa-bell" }, [
-                _vm._v(_vm._s(_vm.unreadCount))
-              ])
+              _c("i", {
+                staticClass: "fa fa-bell",
+                style: { color: _vm.bell_color }
+              }),
+              _vm._v(_vm._s(_vm.unreadCount) + "\n            ")
             ]
           ),
           _vm._v(" "),
@@ -96328,7 +96391,7 @@ var render = function() {
         "b-button",
         {
           staticClass: "btn-sm",
-          attrs: { variant: "primary" },
+          attrs: { disabled: !_vm.form.body, variant: "primary" },
           on: { click: _vm.update }
         },
         [_vm._v("Update")]
@@ -96388,7 +96451,7 @@ var render = function() {
         {
           staticClass: "btn-sm",
           staticStyle: { "margin-top": "-55px" },
-          attrs: { variant: "primary" },
+          attrs: { disabled: !_vm.form.body, variant: "primary" },
           on: { click: _vm.submit }
         },
         [_vm._v("Reply")]
@@ -111645,7 +111708,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var marked__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marked */ "./node_modules/marked/lib/marked.js");
 /* harmony import */ var marked__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marked__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _helpers_User_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers/User.js */ "./resources/js/helpers/User.js");
-/* harmony import */ var _router_router_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./router/router.js */ "./resources/js/router/router.js");
+/* harmony import */ var _helpers_Exception_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helpers/Exception.js */ "./resources/js/helpers/Exception.js");
+/* harmony import */ var _router_router_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./router/router.js */ "./resources/js/router/router.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -111673,6 +111737,8 @@ window.md = marked__WEBPACK_IMPORTED_MODULE_3___default.a;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home-component', __webpack_require__(/*! ./components/layouts/AppHome */ "./resources/js/components/layouts/AppHome.vue")["default"]);
 
 window.User = _helpers_User_js__WEBPACK_IMPORTED_MODULE_4__["default"];
+
+window.Exception = _helpers_Exception_js__WEBPACK_IMPORTED_MODULE_5__["default"];
 window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -111683,7 +111749,7 @@ window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  router: _router_router_js__WEBPACK_IMPORTED_MODULE_5__["default"]
+  router: _router_router_js__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 
 /***/ }),
@@ -113120,6 +113186,52 @@ function () {
 
 /***/ }),
 
+/***/ "./resources/js/helpers/Exception.js":
+/*!*******************************************!*\
+  !*** ./resources/js/helpers/Exception.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./User */ "./resources/js/helpers/User.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Exception =
+/*#__PURE__*/
+function () {
+  function Exception() {
+    _classCallCheck(this, Exception);
+  }
+
+  _createClass(Exception, [{
+    key: "handle",
+    value: function handle(error) {
+      this.isExpired(error.response.data.error);
+    }
+  }, {
+    key: "isExpired",
+    value: function isExpired(error) {
+      if (error == 'Token is Invalid' || 'Token Expired') {
+        _User__WEBPACK_IMPORTED_MODULE_0__["default"].logout();
+      }
+    }
+  }]);
+
+  return Exception;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Exception = new Exception());
+
+/***/ }),
+
 /***/ "./resources/js/helpers/Token.js":
 /*!***************************************!*\
   !*** ./resources/js/helpers/Token.js ***!
@@ -113160,7 +113272,20 @@ function () {
   }, {
     key: "decode",
     value: function decode(payload) {
-      return JSON.parse(atob(payload));
+      if (this.isBase64(payload)) {
+        return JSON.parse(atob(payload));
+      }
+
+      return false;
+    }
+  }, {
+    key: "isBase64",
+    value: function isBase64(payload) {
+      try {
+        return btoa(atob(payload)).replace(/=/g, "") == payload;
+      } catch (e) {
+        return false;
+      }
     }
   }]);
 
@@ -113226,7 +113351,7 @@ function () {
       var storedToken = _AppStorage_js__WEBPACK_IMPORTED_MODULE_1__["default"].getToken();
 
       if (storedToken) {
-        return _Token_js__WEBPACK_IMPORTED_MODULE_0__["default"].isValid(storedToken) ? true : false;
+        return _Token_js__WEBPACK_IMPORTED_MODULE_0__["default"].isValid(storedToken) ? true : this.logout();
       }
 
       return false;

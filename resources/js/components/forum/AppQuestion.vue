@@ -38,7 +38,10 @@
                 </div>
             </b-card-body>
         </b-card-text>
-        <new-reply :question_id="question.id"></new-reply>
+        <new-reply v-if="loggedIn" :question_id="question.id"></new-reply>
+        <div v-else>
+            <a href="/login">Login to reply</a>
+        </div>
     </b-card>
 </template>
 
@@ -63,6 +66,10 @@
         computed:{
             body(){
                 return md.parse(this.question.body);
+            },
+
+            loggedIn(){
+                return User.loggedIn();
             }
         },
         methods:{

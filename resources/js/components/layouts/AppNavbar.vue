@@ -13,7 +13,7 @@
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
 
-                    <b-navbar-nav right>
+                    <b-navbar-nav v-if="loggedIn" right>
                         <notification></notification>
                     </b-navbar-nav>
 
@@ -48,6 +48,12 @@
 
                 username:User.userName(),
                 login:User.loggedIn(),
+            }
+        },
+
+        computed:{
+            loggedIn(){
+                return User.loggedIn();
             }
         },
         created() {

@@ -11,11 +11,11 @@
                         </b-col>
                         <b-col cols="">
                             <div v-if="editId">
-                                <button class="btn btn-outline-dark" type="submit">Update</button>
+                                <button :disabled="!(form.name)" class="btn btn-outline-dark" type="submit">Update</button>
                                 <button class="btn btn-secondary" type="reset">Cancel</button>
                             </div>
                             <div v-else>
-                                <button class="btn btn-success " type="submit">Add</button>
+                                <button :disabled="!(form.name)" class="btn btn-success " type="submit">Add</button>
                             </div>
                         </b-col>
                     </b-row>

@@ -4,7 +4,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-bell">{{unreadCount}}</i>
+                    <i v-bind:style="{ color: bell_color}" class="fa fa-bell"></i>{{unreadCount}}
                 </a>
                 <ul class="dropdown-menu">
                     <li class="head text-light bg-dark">
@@ -44,7 +44,9 @@
                 read: {},
                 unread: {},
                 readCount: 0,
-                unreadCount: 0
+                bell_color:(this.readCount > 0?'red':null),
+                unreadCount: 0,
+                sound: "http://soundbible.com/mp3/A-Tone-His_Self-1266414414.mp3"
             }
         },
         created() {
@@ -54,10 +56,16 @@
 
             Echo.private('App.Model.User.' + User.userId())
                 .notification((notification) => {
+                    this.playSound();
                     this.getNotifications();
                 });
         },
         methods: {
+            playSound(){
+                let alert = new Audio(this.sound);
+                alert.play();
+            },
+
             getNotifications() {
                 axios.get('/api/notifications')
                     .then(res => {
@@ -65,7 +73,8 @@
                         this.unread = res.data.unread;
                         this.readCount = res.data.read.length;
                         this.unreadCount = res.data.unread.length;
-                    });
+                        this.bell_color = (this.readCount > 0?'red':null);
+                    }).catch(error => Exception.handle.error);
             },
             markAsRead(id){
                 axios.post('/api/notification/markAsRead',{id:id})

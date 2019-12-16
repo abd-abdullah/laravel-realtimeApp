@@ -29,8 +29,10 @@ window.md = md;
 Vue.component('home-component', require('./components/layouts/AppHome').default);
 
 import User from './helpers/User.js'
-
 window.User = User;
+
+import Exception from './helpers/Exception.js'
+window.Exception = Exception;
 
 window.EventBus = new Vue();
 

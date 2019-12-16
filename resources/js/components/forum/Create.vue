@@ -1,6 +1,6 @@
 <template>
     <div class="row container-fluid">
-        <div class="offset-3 col-md-6 mt-5 mb-5">
+        <div class="badge-light col-md-6 mb-5 mt-5 offset-3 p-4">
             <h4>Question Form</h4>
             <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show">
                 <b-form-group
@@ -28,7 +28,7 @@
 
                 <vue-simplemde required v-model="form.body" preview-class="markdown-body" />
 
-                <b-button type="submit" variant="primary">Submit</b-button>
+                <b-button :disabled="!(form.title && form.body && form.category_id)" type="submit" variant="primary">Submit</b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
         </div>

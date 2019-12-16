@@ -1,7 +1,7 @@
 <template>
     <div>
         <vue-simplemde required v-model="reply.reply" preview-class="markdown-body" />
-        <b-button class="btn-sm" variant="primary" @click="update">Update</b-button>
+        <b-button class="btn-sm" :disabled="!(form.body)" variant="primary" @click="update">Update</b-button>
         <b-button class="btn-sm" variant="danger" @click="cancel">Cancel</b-button>
     </div>
 </template>
