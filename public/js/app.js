@@ -111719,6 +111719,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+var utlt = [];
+
+utlt['siteUrl'] = function (url) {
+  url = typeof url == "undefined" ? "" : url;
+  return "<?php echo url('/'); ?>/" + url;
+};
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('vue-simplemde', vue_simplemde__WEBPACK_IMPORTED_MODULE_2__["default"]);

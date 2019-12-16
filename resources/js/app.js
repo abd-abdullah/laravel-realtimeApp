@@ -8,6 +8,12 @@ require('./bootstrap');
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 
+var utlt = [];
+utlt['siteUrl'] = function(url){
+    url = typeof url == "undefined" ? "" : url;
+    return "<?php echo url('/'); ?>/"+url;
+}
+
 Vue.use(BootstrapVue)
 
 import VueSimplemde from 'vue-simplemde'
